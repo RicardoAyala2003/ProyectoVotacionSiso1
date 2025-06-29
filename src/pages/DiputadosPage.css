@@ -1,0 +1,116 @@
+.presidente-container {
+    background: #fff3cd;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.presidente-box {
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    max-width: 1000px;
+    width: 100%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.titulo-principal {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1d4ed8;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.subtitulo {
+    font-size: 18px;
+    color: #4b5563;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.error {
+    color: red;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.candidato-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.candidato-card {
+    background: #f9fafb;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 2px solid transparent;
+    position: relative;
+}
+
+.candidato-card.libre {
+    border-color: #ef4444;
+}
+
+.candidato-card.liberal {
+    border-color: #dc2626;
+}
+
+.candidato-card.nacional {
+    border-color: #3b82f6;
+}
+
+.candidato-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.candidato-card.activo {
+    box-shadow: 0 0 10px rgba(29, 78, 216, 0.5);
+}
+
+.candidato-foto {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.candidato-info {
+    padding: 15px;
+    text-align: center;
+}
+
+.candidato-info h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #111827;
+}
+
+.candidato-info p {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.votar-btn {
+    display: block;
+    margin: 0 auto;
+    padding: 12px 24px;
+    background: #1d4ed8;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.votar-btn:hover {
+    background: #1e40af;
+}

@@ -2,6 +2,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import PresidentePage from "./pages/PresidentePage";
 import ResultadosPage from "./pages/ResultadosPage";
+import AlcaldePage from "./pages/AlcaldePage";
+import ElegirMunicipios from "./pages/ElegirMunicipios";
+import DiputadosPage from "./pages/DiputadosPage";
 
 // Luego puedes importar DiputadosPage, AlcaldesPage, etc.
 
@@ -11,8 +14,9 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/presidente" element={<PresidentePage />} />
-        <Route path="/diputados" element={<h1>Página Diputados</h1>} />
-        <Route path="/alcaldes" element={<h1>Página Alcaldes</h1>} />
+        <Route path="/diputados" element={<DiputadosPage />} />
+        <Route path="/alcaldes" element={<AlcaldePage />} />
+        <Route path="/elegir-municipios" element={<ElegirMunicipios />} />
         <Route path="/confirmation" element={<h1>Gracias por votar</h1>} />
         <Route path="/resultados" element={<ResultadosPage />} />
 
