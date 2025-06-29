@@ -5,7 +5,7 @@ import "./ElegirMunicipios.css";
 const municipios = [
   "Comayagua",//
   "Ajuterique",
-  "El Rosario",
+  "Siguatepeque",
   "Esquías",
   "Humuya",
   "La Libertad",
