@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./ElegirMunicipios.css";
 
 const municipios = [
-  "Comayagua",
+  "Comayagua",//
   "Ajuterique",
   "El Rosario",
   "Esquías",
