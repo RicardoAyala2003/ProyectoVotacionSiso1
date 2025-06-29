@@ -5,6 +5,7 @@ import ResultadosPage from "./pages/ResultadosPage";
 import ElegirMunicipios from "./pages/ElegirMunicipios";
 import DiputadosPage from "./pages/DiputadosPage";
 import AlcaldePage from "./pages/AlcaldePage";
+import ConfirmacionPage from "./pages/ConfirmacionPage";
 // Luego puedes importar DiputadosPage, AlcaldesPage, etc.
 
 function App() {
@@ -14,9 +15,9 @@ function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/presidente" element={<PresidentePage />} />
         <Route path="/diputados" element={<DiputadosPage />} />
-        <Route path="/alcaldes" element={<AlcaldePage />} />
+        <Route path="/alcalde" element={<AlcaldePage />} />
         <Route path="/elegir-municipios" element={<ElegirMunicipios />} />
-        <Route path="/confirmation" element={<h1>Gracias por votar</h1>} />
+        <Route path="/confirmacion" element={<ConfirmacionPage/>} />
         <Route path="/resultados" element={<ResultadosPage />} />
 
       </Routes>

@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./DiputadosPage.css";
 
-// Importaciones
+// Fotos importadas igual que en PresidentePage.jsx
 import AlbertoCruz from "../assets/liberal/AlbertoCruz.jpg";
 import HelmaEspinoza from "../assets/liberal/HelmaEspinoza.jpg";
 import IrisRamirez from "../assets/liberal/IrisRamirez.jpg";
@@ -38,27 +38,29 @@ function DiputadosPage() {
 
   useEffect(() => {
     setCandidatos([
-      { id: "liberal-1", nombre_completo: "Alberto Cruz", partido: "Partido Liberal", foto_url: AlbertoCruz },
-      { id: "liberal-2", nombre_completo: "Helma Espinoza", partido: "Partido Liberal", foto_url: HelmaEspinoza },
-      { id: "liberal-3", nombre_completo: "Iris Ramírez", partido: "Partido Liberal", foto_url: IrisRamirez },
-      { id: "liberal-4", nombre_completo: "John Alvarado", partido: "Partido Liberal", foto_url: JohnAlvarado },
-      { id: "liberal-5", nombre_completo: "Kelyn Ordóñez", partido: "Partido Liberal", foto_url: KelynOrdonez },
-      { id: "liberal-6", nombre_completo: "Salomón Osorio", partido: "Partido Liberal", foto_url: SalomonOsorio },
-      { id: "liberal-7", nombre_completo: "Yavhe Sabillón", partido: "Partido Liberal", foto_url: YahveSabillon },
-      { id: "libre-1", nombre_completo: "Elmer García", partido: "Partido Libre", foto_url: ElmerGarcia },
-      { id: "libre-2", nombre_completo: "Elmer Matute", partido: "Partido Libre", foto_url: ElmerMatute },
-      { id: "libre-3", nombre_completo: "Ingrid Coello", partido: "Partido Libre", foto_url: IngridCoello },
-      { id: "libre-4", nombre_completo: "Karen Castillo", partido: "Partido Libre", foto_url: KarenCastillo },
-      { id: "libre-5", nombre_completo: "Lindbergh Zavala", partido: "Partido Libre", foto_url: LindberghZavala },
-      { id: "libre-6", nombre_completo: "Marlon Vialovo", partido: "Partido Libre", foto_url: MarlonVialovo },
-      { id: "libre-7", nombre_completo: "Senia Discua", partido: "Partido Libre", foto_url: SeniaDiscua },
-      { id: "nacional-1", nombre_completo: "Ernesto Rodríguez", partido: "Partido Nacional", foto_url: ErnestoRodriguez },
-      { id: "nacional-2", nombre_completo: "Keydi Urbina", partido: "Partido Nacional", foto_url: KeydiUrbina },
-      { id: "nacional-3", nombre_completo: "Marcos Umanzor", partido: "Partido Nacional", foto_url: MarcosUmanzor },
-      { id: "nacional-4", nombre_completo: "Mary Bonilla", partido: "Partido Nacional", foto_url: MaryBonilla },
-      { id: "nacional-5", nombre_completo: "Mauro Santos", partido: "Partido Nacional", foto_url: MauroSantos },
-      { id: "nacional-6", nombre_completo: "Maytee Petit", partido: "Partido Nacional", foto_url: MayteePetit },
-      { id: "nacional-7", nombre_completo: "René Suazo", partido: "Partido Nacional", foto_url: ReneSuazo },
+      { id: 10, nombre_completo: "Alberto Cruz", partido: "Partido Liberal", foto_url: AlbertoCruz },
+      { id: 11, nombre_completo: "Helma Espinoza", partido: "Partido Liberal", foto_url: HelmaEspinoza },
+      { id: 12, nombre_completo: "Iris Ramírez", partido: "Partido Liberal", foto_url: IrisRamirez },
+      { id: 13, nombre_completo: "John Alvarado", partido: "Partido Liberal", foto_url: JohnAlvarado },
+      { id: 14, nombre_completo: "Kelyn Ordóñez", partido: "Partido Liberal", foto_url: KelynOrdonez },
+      { id: 15, nombre_completo: "Salomón Osorio", partido: "Partido Liberal", foto_url: SalomonOsorio },
+      { id: 16, nombre_completo: "Yavhe Sabillón", partido: "Partido Liberal", foto_url: YahveSabillon },
+
+      { id: 17, nombre_completo: "Elmer García", partido: "Partido Libre", foto_url: ElmerGarcia },
+      { id: 18, nombre_completo: "Elmer Matute", partido: "Partido Libre", foto_url: ElmerMatute },
+      { id: 19, nombre_completo: "Ingrid Coello", partido: "Partido Libre", foto_url: IngridCoello },
+      { id: 20, nombre_completo: "Karen Castillo", partido: "Partido Libre", foto_url: KarenCastillo },
+      { id: 21, nombre_completo: "Lindbergh Zavala", partido: "Partido Libre", foto_url: LindberghZavala },
+      { id: 22, nombre_completo: "Marlon Vialovo", partido: "Partido Libre", foto_url: MarlonVialovo },
+      { id: 23, nombre_completo: "Senia Discua", partido: "Partido Libre", foto_url: SeniaDiscua },
+
+      { id: 24, nombre_completo: "Ernesto Rodríguez", partido: "Partido Nacional", foto_url: ErnestoRodriguez },
+      { id: 25, nombre_completo: "Keydi Urbina", partido: "Partido Nacional", foto_url: KeydiUrbina },
+      { id: 26, nombre_completo: "Marcos Umanzor", partido: "Partido Nacional", foto_url: MarcosUmanzor },
+      { id: 27, nombre_completo: "Mary Bonilla", partido: "Partido Nacional", foto_url: MaryBonilla },
+      { id: 28, nombre_completo: "Mauro Santos", partido: "Partido Nacional", foto_url: MauroSantos },
+      { id: 29, nombre_completo: "Maytee Petit", partido: "Partido Nacional", foto_url: MayteePetit },
+      { id: 30, nombre_completo: "René Suazo", partido: "Partido Nacional", foto_url: ReneSuazo },
     ]);
   }, []);
 
@@ -71,8 +73,8 @@ function DiputadosPage() {
         return;
       }
       setSeleccionados([...seleccionados, id]);
+      setError("");
     }
-    setError(""); // Limpiar error
   };
 
   const handleVotar = async () => {
@@ -82,20 +84,27 @@ function DiputadosPage() {
     }
 
     try {
-      const res = await fetch("http://localhost/api/votos", {
+      const res = await fetch("/api/emitir_voto.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          usuario_id: usuario.id,
-          candidatos_ids: seleccionados,
+          dni: usuario.dni,
           tipo: "Diputado",
+          candidatos_ids: seleccionados,
         }),
       });
 
-      if (!res.ok) throw new Error("Error al registrar el voto.");
-      navigate("/alcalde", { state: { usuario: { ...usuario, ha_votado_diputado: true } } });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Error al registrar el voto.");
+      }
+
+      navigate("/elegir-municipios", {
+        state: { usuario: { ...usuario, ha_votado_diputados: true } },
+      });
     } catch (err) {
-      setError("Error al registrar el voto.");
+      setError(err.message || "Error al registrar el voto.");
     }
   };
 
@@ -103,7 +112,9 @@ function DiputadosPage() {
     <div className="presidente-container">
       <div className="presidente-box">
         <h1 className="titulo-principal">Elección de Diputados</h1>
-        <p className="subtitulo">Por favor seleccione entre 1 y 7 candidatos de su preferencia para emitir su voto.</p>
+        <p className="subtitulo">
+          Por favor seleccione entre 1 y 7 candidatos para emitir su voto.
+        </p>
 
         {error && <p className="error">{error}</p>}
 
@@ -111,7 +122,6 @@ function DiputadosPage() {
           {candidatos.map((candidato) => (
             <div
               key={candidato.id}
-              tabIndex={-1}
               className={`candidato-card ${seleccionados.includes(candidato.id) ? "activo" : ""}`}
               onClick={() => toggleSeleccion(candidato.id)}
             >

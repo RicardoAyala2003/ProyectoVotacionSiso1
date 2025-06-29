@@ -1,23 +1,23 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./ElegirMunicipios.css";
 
 const municipios = [
-  "Comayagua",//
+  "Comayagua",
   "Ajuterique",
   "Siguatepeque",
-  "Esquías",
+  "Esquias",
   "Humuya",
   "La Libertad",
   "Villa de San Antonio",
   "La Trinidad",
-  "Lejamaní",
-  "Meámbar",
-  "San Jerónimo",
+  "Lejamani",
+  "Meambar",
+  "San Jeronimo",
   "Ojos de Agua",
-  "San José de Comayagua",
+  "San Jose de Comayagua",
   "Minas de Oro",
-  "San José del Potrero",
+  "San Jose del Potrero",
   "Las Lajas",
   "San Luis",
 ];
@@ -26,6 +26,8 @@ function ElegirMunicipios() {
   const [seleccionado, setSeleccionado] = useState(null);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const usuario = location.state?.usuario; // ✅ aquí se corrige
 
   const handleConfirmar = () => {
     if (!seleccionado) {
@@ -33,7 +35,7 @@ function ElegirMunicipios() {
       return;
     }
 
-    navigate("/presidente", { state: { municipio: seleccionado } });
+    navigate("/alcalde", { state: { municipio: seleccionado, usuario } });
   };
 
   return (

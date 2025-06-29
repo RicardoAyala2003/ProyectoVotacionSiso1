@@ -11,74 +11,70 @@ function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
-  
+
     const nombreRegex = /^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s]+$/;
     const dniRegex = /^\d{13}$/;
 
     if (!nombre.trim()) {
-        setError("Por favor, ingrese su nombre completo.");
-        return;
-      }
-  
-    if (!nombreRegex.test(nombre)) {
-        setError("El nombre solo debe contener letras y espacios.");
-        return;
+      setError("Por favor, ingrese su nombre completo.");
+      return;
     }
+
+    if (!nombreRegex.test(nombre)) {
+      setError("El nombre solo debe contener letras y espacios.");
+      return;
+    }
+
     if (!dni.trim()) {
-        setError("Por favor, ingrese su número de identidad.");
-        return;
-      }
-  
+      setError("Por favor, ingrese su número de identidad.");
+      return;
+    }
+
     if (!dniRegex.test(dni)) {
       setError("El DNI debe contener exactamente 13 números.");
       return;
     }
-  
+
     try {
-      const res = await fetch(`http://localhost/api/usuarios/${dni}`);
-  
-      if (!res.ok) {
-        const crear = await fetch("http://localhost/api/usuarios", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ dni, nombre_completo: nombre })
-        });
-  
-        if (!crear.ok) throw new Error("No se pudo crear el usuario");
-  
-        const nuevoUsuario = await crear.json();
-        navigate("/presidente", { state: { usuario: nuevoUsuario } });
-        return;
+      const response = await fetch("/api/registrar_usuario.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          dni: dni.trim(),
+          nombre_completo: nombre.trim()
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Error en la respuesta del servidor");
       }
-  
-      const usuario = await res.json();
-  
-      if (usuario.nombre_completo.toLowerCase() !== nombre.trim().toLowerCase()) {
-        setError("El nombre no coincide con el registrado.");
-        return;
-      }
-  
-      if (!usuario.ha_votado_presidente) {
-        navigate("/presidente", { state: { usuario } });
-      } else if (!usuario.ha_votado_diputados) {
-        navigate("/diputados", { state: { usuario } });
-      } else if (!usuario.ha_votado_alcalde) {
-        navigate("/alcaldes", { state: { usuario } });
-      } else {
-        navigate("/gracias");
-      }
+
+      // Redirigir a página de votación presidencial
+      navigate("/presidente", {
+        state: {
+          usuario: data // contiene id, dni, nombre, etc.
+        }
+      });
+
     } catch (err) {
-      setError("Ocurrió un error al procesar el login.");
-      console.error(err);
+      console.error("Error completo:", err);
+      setError(err.message || "Ocurrió un error al procesar el login. Intente nuevamente.");
     }
   };
-  
 
   return (
     <div className="login-container">
       <div className="login-box">
         <h1>Plataforma de Votación 2025</h1>
         <p>Ingrese su nombre completo y número de identidad para comenzar.</p>
+
+        {error && <div className="error-message">{error}</div>}
+
         <form onSubmit={handleLogin}>
           <label htmlFor="nombre">Nombre completo</label>
           <input
@@ -96,9 +92,8 @@ function LoginPage() {
             value={dni}
             onChange={(e) => setDni(e.target.value)}
             placeholder="0801199012345"
+            maxLength="13"
           />
-
-          {error && <p className="error-message">{error}</p>}
 
           <button type="submit">Ingresar</button>
         </form>

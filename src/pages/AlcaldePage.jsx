@@ -1,45 +1,118 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./PresidentePage.css";
-import alcalde1 from "../assets/alcaldesXmunicipio/Comayagua/carlos_canales_libre.jpg";
-import alcalde2 from "../assets/alcaldesXmunicipio/Comayagua/luis_suazo_nacional.jpg";
-import alcalde3 from "../assets/alcaldesXmunicipio/Comayagua/rubdel_barahona_libre.jpg";
+
+// Importar todas las imágenes de alcaldes
+const imagenes = import.meta.glob("../assets/alcaldesXmunicipio/**/*.jpg", { eager: true });
 
 function AlcaldePage() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const usuario = state?.usuario;
+  const municipioRaw = state?.municipio;
+  const municipio = municipioRaw?.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
   const [candidatos, setCandidatos] = useState([]);
   const [seleccionado, setSeleccionado] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    setCandidatos([
-      {
-        id: 1,
-        nombre_completo: "Carlos Miranda Canales",
-        partido: "Partido Liberal",
-        foto_url: alcalde1
-      },
-      {
-        id: 2,
-        nombre_completo: "Luis Rene Suazo Peña",
-        partido: "Partido Libre",
-        foto_url: alcalde2
-      },
-      {
-        id: 3,
-        nombre_completo: "Rudbel Idail Barahona Ordoñez",
-        partido: "Partido Nacional",
-        foto_url: alcalde3
+    if (!municipio) {
+      setError("Municipio no especificado.");
+      return;
+    }
+
+    const partidoIdMap = {
+      liberal: 1,
+      libre: 2,
+      nacional: 3,
+    };
+
+    const nombreToId = {
+      "alfredo_pineda_liberal": 31,
+      "jose_rivera_libre": 32,
+      "mario_palencia_nacional": 33,
+      "carlos_canales_libre": 34,
+      "luis_suazo_nacional": 35,
+      "rubdel_barahona_libre": 36,
+      "abelardo_flores_liberal": 37,
+      "david_bueso_libre": 38,
+      "maximiliano_rodriguez_nacional": 39,
+      "abel_solorzano_nacional": 40,
+      "cristian_martinez_libre": 41,
+      "deybin_suazo_liberal": 42,
+      "alex_zavala_liberal": 43,
+      "jose_suazo_nacional": 44,
+      "samuel_cubas_libre": 45,
+      "carlos_chavez_libre": 46,
+      "efrain_villeda_liberal": 47,
+      "napoleon_amaya_nacional": 48,
+      "eber_rodriguez_nacional": 49,
+      "manuel_urbina_liberal": 50,
+      "rafael_romero_libre": 51,
+      "francisco_mendez_libre": 52,
+      "jose_reyes_liberal": 53,
+      "marvin_suazo_nacional": 54,
+      "adan_rivera_nacional": 55,
+      "france_nuñez_liberal": 56,
+      "isaias_flores_libre": 57,
+      "jorge_palma_libre": 58,
+      "jose_ramos_nacional": 59,
+      "mario_zuniga_liberal": 60,
+      "gaspar_ulloa_libre": 61,
+      "marvin_romero_liberal": 62,
+      "xiomara_ulloa_nacional": 63,
+      "jesus_martinez_liberal": 64,
+      "olbin_bonilla_libre": 65,
+      "wilmer_mendoza_nacional": 66,
+      "jose_mancia_libre": 67,
+      "melkin_muñoz_nacional": 68,
+      "romualdo_hernandez_liberal": 69,
+      "aldy_berrio_liberal": 70,
+      "marco_corrales_nacional": 71,
+      "renan_rodriguez_libre": 72,
+      "eduin_bulnes_libre": 73,
+      "leny_flores_liberal": 74,
+      "sergio_guillen_nacional": 75,
+      "carlos_reyes_liberal": 76,
+      "jorge_valeriano_nacional": 77,
+      "pablo_bonilla_libre": 78,
+      "fabricio_velasquez_nacional": 79,
+      "jose_escobar_libre": 80,
+      "ramon_fuentes_liberal": 81,
+    };
+
+    const candidatosMunicipio = [];
+
+    for (const path in imagenes) {
+      if (path.toLowerCase().includes(`/alcaldesxmunicipio/${municipio.toLowerCase()}/`)) {
+        const nombreArchivo = path.split("/").pop(); // ej: 'luis_suazo_nacional.jpg'
+        const key = nombreArchivo.replace(/\.(jpg|jpeg|png)$/, "").toLowerCase();
+        const partido = key.includes("liberal")
+          ? "Partido Liberal"
+          : key.includes("libre")
+          ? "Partido Libre"
+          : "Partido Nacional";
+
+        const nombreBonito = key
+          .replace(/_/g, " ")
+          .replace(/\b\w/g, (c) => c.toUpperCase());
+
+        const idReal = nombreToId[key];
+
+        if (idReal) {
+          candidatosMunicipio.push({
+            id: idReal,
+            nombre_completo: nombreBonito,
+            partido,
+            foto_url: imagenes[path].default,
+          });
+        }
       }
-    ]);
-    // fetch("http://localhost/api/candidatos?tipo=Alcalde")
-    //   .then((res) => res.json())
-    //   .then((data) => setCandidatos(data))
-    //   .catch(() => setError("No se pudieron cargar los candidatos."));
-  }, []);
+    }
+
+    setCandidatos(candidatosMunicipio);
+  }, [municipio]);
 
   const handleVotar = async () => {
     if (!seleccionado) {
@@ -48,31 +121,33 @@ function AlcaldePage() {
     }
 
     try {
-      const res = await fetch("http://localhost/api/votos", {
+      const res = await fetch("/api/emitir_voto.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          usuario_id: usuario.id,
-          candidato_id: seleccionado,
+          dni: usuario.dni,
           tipo: "Alcalde",
+          candidato_id: seleccionado,
         }),
       });
 
-      if (!res.ok) throw new Error("Error al registrar el voto.");
+      const data = await res.json();
 
-      // Redirigir a la siguiente página si querés
-      navigate("/final", { state: { usuario: { ...usuario, ha_votado_alcalde: true } } });
+      if (!res.ok) throw new Error(data.message || "Error al registrar el voto.");
+
+      navigate("/confirmacion", {
+        state: { usuario: { ...usuario, ha_votado_alcalde: true } },
+      });
     } catch (err) {
-      setError("Error al registrar el voto.");
+      setError(err.message || "Error al registrar el voto.");
     }
   };
 
   return (
     <div className="presidente-container">
       <div className="presidente-box">
-        <h1>Elección de Alcalde</h1>
         <h1 className="titulo-principal">Elección de Alcalde</h1>
-        <p className="subtitulo">Por favor seleccione el candidato de su preferencia para emitir su voto.</p>
+        <p className="subtitulo">Seleccione el candidato de su preferencia para emitir su voto.</p>
 
         {error && <p className="error">{error}</p>}
 
