@@ -11,68 +11,54 @@ function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
-  
+
     const nombreRegex = /^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s]+$/;
     const dniRegex = /^\d{13}$/;
 
     if (!nombre.trim()) {
-        setError("Por favor, ingrese su nombre completo.");
-        return;
-      }
-  
-    if (!nombreRegex.test(nombre)) {
-        setError("El nombre solo debe contener letras y espacios.");
-        return;
+      setError("Por favor, ingrese su nombre completo.");
+      return;
     }
+
+    if (!nombreRegex.test(nombre)) {
+      setError("El nombre solo debe contener letras y espacios.");
+      return;
+    }
+
     if (!dni.trim()) {
-        setError("Por favor, ingrese su número de identidad.");
-        return;
-      }
-  
+      setError("Por favor, ingrese su número de identidad.");
+      return;
+    }
+
     if (!dniRegex.test(dni)) {
       setError("El DNI debe contener exactamente 13 números.");
       return;
     }
-  
+
     try {
-      const res = await fetch(`http://localhost/api/usuarios/${dni}`);
-  
-      if (!res.ok) {
-        const crear = await fetch("http://localhost/api/usuarios", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ dni, nombre_completo: nombre })
-        });
-  
-        if (!crear.ok) throw new Error("No se pudo crear el usuario");
-  
-        const nuevoUsuario = await crear.json();
-        navigate("/presidente", { state: { usuario: nuevoUsuario } });
-        return;
-      }
-  
+      const res = await fetch("/api/registrar_usuario.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ dni, nombre_completo: nombre })
+      });
+
+      if (!res.ok) throw new Error("Respuesta del servidor no válida");
+
       const usuario = await res.json();
-  
+
+      // Validar coincidencia de nombre (opcional, puedes quitar esto si no es necesario)
       if (usuario.nombre_completo.toLowerCase() !== nombre.trim().toLowerCase()) {
         setError("El nombre no coincide con el registrado.");
         return;
       }
-  
-      if (!usuario.ha_votado_presidente) {
-        navigate("/presidente", { state: { usuario } });
-      } else if (!usuario.ha_votado_diputados) {
-        navigate("/diputados", { state: { usuario } });
-      } else if (!usuario.ha_votado_alcalde) {
-        navigate("/alcaldes", { state: { usuario } });
-      } else {
-        navigate("/gracias");
-      }
+
+      navigate("/elegir-municipios", { state: { usuario } });
+
     } catch (err) {
       setError("Ocurrió un error al procesar el login.");
       console.error(err);
     }
   };
-  
 
   return (
     <div className="login-container">
