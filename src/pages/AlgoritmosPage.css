@@ -1,0 +1,87 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom, #e6f0f0, #cfd8dc);
+    scroll-behavior: smooth;
+  }
+
+  .algoritmos-container {
+    min-height: 100vh;
+    width: 100%;
+    padding: 7rem 1rem 4rem; /* <- Aumentamos el padding-top */
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .algoritmos-title {
+    text-align: center;
+    font-size: 2.2rem;
+    color: #0d2b52;
+    margin-bottom: 10px;
+  }
+  
+  .algoritmos-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 40px;
+  }
+  
+  .algoritmo-card {
+    margin-top: 30px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .algoritmo-card h2 {
+    color: #0d2b52;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+  }
+  
+  .algoritmo-card p {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    color: #444;
+  }
+  
+  .mostrar-codigo-btn, .ejecutar-btn {
+    margin-right: 10px;
+    padding: 10px 20px;
+    border: none;
+    font-size: 0.95rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .mostrar-codigo-btn {
+    background-color: #0d2b52;
+    color: white;
+  }
+  
+  .ejecutar-btn {
+    background-color: #26a69a;
+    color: white;
+  }
+  
+  .codigo-box {
+    overflow-x: auto;
+    background-color: #f4f4f4;
+    padding: 1rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+    white-space: pre-wrap; /* para evitar desbordamiento horizontal */
+    color: #222;
+  }
+  
