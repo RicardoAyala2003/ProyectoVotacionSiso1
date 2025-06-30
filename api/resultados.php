@@ -1,28 +1,44 @@
 <?php
+header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
-include("../db.php");
 
-$tipo = $_GET["tipo"];
+require_once __DIR__ . '/../db.php'; // usa tu archivo db.php original
 
-$sql = "SELECT c.nombre_completo, p.nombre AS partido, COUNT(v.id) AS total_votos
-        FROM Votos v
-        JOIN Candidatos c ON v.candidato_id = c.id
-        JOIN Partidos p ON c.partido_id = p.id
-        WHERE v.tipo = ?
-        GROUP BY v.candidato_id
-        ORDER BY total_votos DESC";
+$tipo = $_GET['tipo'] ?? '';
 
-$stmt = $conn->prepare($sql);
+if (!$tipo) {
+    http_response_code(400);
+    echo json_encode(["message" => "Tipo no especificado"]);
+    exit;
+}
+
+// Construcción de la consulta según el tipo
+$consulta = "SELECT c.id, c.nombre_completo, p.nombre AS partido, COUNT(v.id) AS votos";
+
+if ($tipo === 'Alcalde') {
+    $consulta .= ", c.municipio";
+}
+
+$consulta .= " FROM Votos v 
+               JOIN Candidatos c ON v.candidato_id = c.id 
+               JOIN Partidos p ON c.partido_id = p.id
+               WHERE v.tipo = ?
+               GROUP BY c.id";
+
+if ($tipo === 'Alcalde') {
+    $consulta .= ", c.municipio";
+}
+
+$consulta .= " ORDER BY votos DESC";
+
+$stmt = $conn->prepare($consulta);
 $stmt->bind_param("s", $tipo);
 $stmt->execute();
-$result = $stmt->get_result();
+$resultado = $stmt->get_result();
 
 $datos = [];
-while ($row = $result->fetch_assoc()) {
-    $datos[] = $row;
+while ($fila = $resultado->fetch_assoc()) {
+    $datos[] = $fila;
 }
 
 echo json_encode($datos);
-$stmt->close();
-$conn->close();
-?>
