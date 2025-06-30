@@ -1,11 +1,15 @@
 .presidente-container {
+  min-height: 100vh;
   width: 100vw;
-  height: 100vh;
   background: linear-gradient(to bottom right, #fffaf0, #fef3c7);
   display: flex;
   justify-content: center;
+  align-items: center; /* Centra verticalmente */
   padding: 60px 20px 40px;
+  overflow-x: hidden; /* Previene scroll horizontal */
+  box-sizing: border-box;
 }
+
 
 .presidente-box {
   background: white;

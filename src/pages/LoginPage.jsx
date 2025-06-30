@@ -94,9 +94,16 @@ function LoginPage() {
             placeholder="0801199012345"
             maxLength="13"
           />
-
           <button type="submit">Ingresar</button>
         </form>
+        <button
+  type="button"
+  className="algoritmos-btn"
+  onClick={() => navigate("/algoritmos")}
+>
+  💡 Página informativa de Algoritmos
+</button>
+
       </div>
     </div>
   );
