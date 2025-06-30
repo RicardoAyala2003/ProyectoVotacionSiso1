@@ -12,12 +12,12 @@ const municipios = [
   "Villa de San Antonio",
   "La Trinidad",
   "Lejamani",
-  "Meambar",
-  "San Jeronimo",
+  "Membar",
+  "San Jerónimo",
   "Ojos de Agua",
-  "San Jose de Comayagua",
+  "San José de Comayagua",
   "Minas de Oro",
-  "San Jose del Potrero",
+  "San José del Potrero",
   "Las Lajas",
   "San Luis",
 ];
@@ -27,7 +27,7 @@ function ElegirMunicipios() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-  const usuario = location.state?.usuario; // ✅ aquí se corrige
+  const usuario = location.state?.usuario;
 
   const handleConfirmar = () => {
     if (!seleccionado) {
@@ -35,12 +35,14 @@ function ElegirMunicipios() {
       return;
     }
 
-    navigate("/alcalde", { state: { municipio: seleccionado, usuario } });
+    navigate("/alcalde", {
+      state: { municipio: seleccionado, usuario },
+    });
   };
 
   return (
-    <div className="presidente-container">
-      <div className="presidente-box">
+    <div className="municipios-container">
+      <div className="municipios-box">
         <h1 className="titulo-principal">Seleccione su Municipio</h1>
         <p className="subtitulo">Elija su municipio para continuar con la votación.</p>
 
@@ -50,7 +52,9 @@ function ElegirMunicipios() {
           {municipios.map((municipio, index) => (
             <div
               key={index}
-              className={`municipio-card ${seleccionado === municipio ? "activo" : ""}`}
+              className={`municipio-card ${
+                seleccionado === municipio ? "activo" : ""
+              }`}
               onClick={() => setSeleccionado(municipio)}
             >
               {municipio}

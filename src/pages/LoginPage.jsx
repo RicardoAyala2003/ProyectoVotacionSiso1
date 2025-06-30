@@ -54,10 +54,9 @@ function LoginPage() {
         throw new Error(data.message || "Error en la respuesta del servidor");
       }
 
-      // Redirigir a página de votación presidencial
       navigate("/presidente", {
         state: {
-          usuario: data // contiene id, dni, nombre, etc.
+          usuario: data
         }
       });
 
@@ -97,6 +96,14 @@ function LoginPage() {
 
           <button type="submit">Ingresar</button>
         </form>
+
+        <button className="login-alt-btn" onClick={() => navigate("/algoritmos")}>
+          Página informática de algoritmos
+        </button>
+
+        <button className="login-alt-btn finalizar" onClick={() => navigate("/resultados")}>
+          Finalizar votación
+        </button>
       </div>
     </div>
   );

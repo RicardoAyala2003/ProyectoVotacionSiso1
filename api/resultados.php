@@ -2,7 +2,7 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
 
-require_once __DIR__ . '/../db.php'; // usa tu archivo db.php original
+require_once __DIR__ . '/../db.php';
 
 $tipo = $_GET['tipo'] ?? '';
 
@@ -12,15 +12,20 @@ if (!$tipo) {
     exit;
 }
 
-// Construcción de la consulta según el tipo
-$consulta = "SELECT c.id, c.nombre_completo, p.nombre AS partido, COUNT(v.id) AS votos";
+// Consulta base
+$consulta = "SELECT 
+                c.id, 
+                c.nombre_completo, 
+                p.nombre AS partido, 
+                COUNT(v.id) AS votos";
 
+// Si es alcalde, agregar municipio
 if ($tipo === 'Alcalde') {
     $consulta .= ", c.municipio";
 }
 
-$consulta .= " FROM Votos v 
-               JOIN Candidatos c ON v.candidato_id = c.id 
+$consulta .= " FROM Votos v
+               JOIN Candidatos c ON v.candidato_id = c.id
                JOIN Partidos p ON c.partido_id = p.id
                WHERE v.tipo = ?
                GROUP BY c.id";
